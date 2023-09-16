@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/09/2023 11:12:03 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="movies_store" name="sys.model.Movie" optimistic-lock="version" table="movie">
+    <id name="idMovie" type="java.lang.Integer">
+      <column name="idMovie"/>
+      <generator class="identity"/>
+    </id>
+    <property name="nameMovie" type="string">
+      <column length="20" name="nameMovie" not-null="true"/>
+    </property>
+    <property name="mainActor" type="string">
+      <column length="20" name="mainActor"/>
+    </property>
+    <property name="genderMovie" type="string">
+      <column length="50" name="genderMovie"/>
+    </property>
+    <property name="launch" type="date">
+      <column length="10" name="launch"/>
+    </property>
+    <property name="score" type="java.lang.Integer">
+      <column name="score"/>
+    </property>
+  </class>
+</hibernate-mapping>

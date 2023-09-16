@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../Template/Template.xhtml">
+
+            <ui:define name="content">
+                <h1>Listado de Películas</h1>
+                <br/>
+                <h:form>
+                    <p:commandButton icon="pi pi-fw pi-plus" value="Agregar Película" actionListener="#{moviesBean.prepareMovie()}"
+                                     oncomplete="PF('DialogNewMovie').show()" update="formNewMovie"/>
+                </h:form>
+                <br/>
+                <h:form id="formListMovie">
+                    <p:dataTable id="tableMovie" paginator="true" paginatorPosition="top" var="lMovies" value="#{moviesBean.movies}">
+                        <p:column headerText="Código Película">
+                            <h:outputText value="#{lMovies.idMovie}"/>
+                        </p:column>
+                        <p:column headerText="Nombre de la película">
+                            <h:outputText value="#{lMovies.nameMovie}"/>
+                        </p:column>
+                        <p:column headerText="Protagonista">
+                            <h:outputText value="#{lMovies.mainActor}"/>
+                        </p:column>
+                        <p:column headerText="Género">
+                            <h:outputText value="#{lMovies.genderMovie}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de lanzamiento">
+                            <h:outputText value="#{lMovies.launch}"/>
+                        </p:column>
+                        <p:column headerText="Puntuación">
+                            <h:outputText value="#{lMovies.score}"/>
+                        </p:column>
+                        <p:column headerText="Modificar">
+                            <p:commandButton icon="pi pi-fw pi-pencil" value="Modificar" oncomplete="PF('DialogChangeMovie').show()" update="formChangeProducto" style="background-color: orange">
+                                <f:setPropertyActionListener target="#{moviesBean.movie}" value="#{lMovies}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar">
+                            <p:commandButton value="Eliminar " icon="pi pi-fw pi-user-minus" oncomplete="PF('DialogDeleteMovie').show()" update="formDeleteMovie" style="background-color: red">
+                                <f:setPropertyActionListener target="#{moviesBean.movie}" value="#{lMovies}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNewMovie">
+                    <p:dialog id="dlgNewMovie" widgetVar="DialogNewMovie" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre de la Película"/>
+                            <p:inputText value="#{moviesBean.movie.nameMovie}"/>
+                            <p:outputLabel value="Actor Principal"/>
+                            <p:inputText value="#{moviesBean.movie.mainActor}"/>
+                            <p:outputLabel value="Género"/>
+                            <p:inputText value="#{moviesBean.movie.genderMovie}"/>
+                            <p:outputLabel value="Fecha de Lanzamiento"/>
+                            <p:datePicker id="basic" value="#{moviesBean.movie.launch}"/>
+                            <p:outputLabel value="Puntuación"/>
+                            <p:inputText value="#{moviesBean.movie.score}" placeholder="Del 1 al 10"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{moviesBean.insertMovie()}"
+                                         update="formListMovie:tableMovie"
+                                         oncomplete="PF('DialogNewMovie').hide()"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formChangeProducto">
+                    <p:dialog id="dlgChangeProducto" widgetVar="DialogChangeMovie" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre de la Película"/>
+                            <p:inputText value="#{moviesBean.movie.nameMovie}"/>
+                            <p:outputLabel value="Actor Principal"/>
+                            <p:inputText value="#{moviesBean.movie.mainActor}"/>
+                            <p:outputLabel value="Género"/>
+                            <p:inputText value="#{moviesBean.movie.genderMovie}"/>
+                            <p:outputLabel value="Fecha de Lanzamiento"/>
+                            <p:datePicker id="basic" value="#{moviesBean.movie.launch}"/>
+                            <p:outputLabel value="Puntuación 1-10"/>
+                            <p:inputNumber value="#{moviesBean.movie.score}" minValue="1" maxValue="10" decimalPlaces="0"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{moviesBean.upDateMovie()}"
+                                         update="formListMovie:tableMovie"
+                                         oncomplete="PF('DialogChangeMovie').hide()"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formDeleteMovie">
+                    <p:dialog id="dlgDeleteMovie" widgetVar="DialogDeleteMovie" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="Desea eliminar esta película?  "/>
+                        <p:commandButton value="SI" actionListener="#{moviesBean.deleteMovie()}"
+                                         update="formListMovie:tableMovie"
+                                         oncomplete="PF('DialogDeleteMovie').hide()"/>
+                        <p:commandButton value="NO" update="formListMovie:tableMovie"
+                                         oncomplete="PF('DialogDeleteMovie').hide()"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
